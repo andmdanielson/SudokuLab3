@@ -271,4 +271,30 @@ public class Sudoku extends LatinSquare {
 		
 		return true;
 	}
+	
+	// Methods for Lab 3
+	
+	public int getRegionNbr(int iCol, int iRow) {
+		
+		int i = (iCol / iSqrtSize) + ((iRow / iSqrtSize) * iSqrtSize);
+		
+		return i;
+	}
+	
+	public void printPuzzle() {
+		int element;
+		int[] row;
+		
+		for (int iRow=0; iRow<iSize; iRow++) {
+			
+			row=super.getRow(iRow);
+			
+			for(int iCol=0; iCol<iSize-1; iCol++) {
+				
+				element=row[iCol];
+				System.out.print(element+" ");
+			}
+			System.out.print(row[iSize-1]+"\n");
+		}
+	}
 }
