@@ -1,5 +1,7 @@
 package pkgGame;
 
+import org.apache.commons.lang.ArrayUtils;
+
 import pkgEnum.ePuzzleViolation;
 import pkgHelper.LatinSquare;
 import pkgHelper.PuzzleViolation;
@@ -296,5 +298,24 @@ public class Sudoku extends LatinSquare {
 			}
 			System.out.print(row[iSize-1]+"\n");
 		}
+	}
+	
+	private void shuffleArray(int[] ar) {
+		int[] shuffle=new int[ar.length];
+		int[] element_used=new int[ar.length];
+		for (int idx=0; idx<ar.length; idx++ ) {
+			boolean finished=false;
+			while (finished==false) {
+				int el=(int) Math.round(Math.random()*(ar.length-1));
+				int el_num=el+1;
+				if (ArrayUtils.contains(element_used, el_num)==false) {
+					shuffle[el]=ar[idx];
+					element_used[idx]=el_num;
+					finished=true;
+				}
+				 
+			}
+		}
+		ar=shuffle;
 	}
 }
