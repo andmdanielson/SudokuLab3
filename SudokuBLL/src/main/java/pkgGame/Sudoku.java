@@ -58,7 +58,11 @@ public class Sudoku extends LatinSquare {
 		} else {
 			throw new Exception("Invalid size");
 		}
+		int[][] puzzle = new int[this.iSize][this.iSize];
+		
+		super.setLatinSquare(puzzle);
 	}
+	
 
 	/**
 	 * Sudoku - pass in a given two-dimensional array puzzle, create an instance.
@@ -300,22 +304,53 @@ public class Sudoku extends LatinSquare {
 		}
 	}
 	
-	private void shuffleArray(int[] ar) {
-		int[] shuffle=new int[ar.length];
-		int[] element_used=new int[ar.length];
-		for (int idx=0; idx<ar.length; idx++ ) {
-			boolean finished=false;
-			while (finished==false) {
-				int el=(int) Math.round(Math.random()*(ar.length-1));
-				int el_num=el+1;
-				if (ArrayUtils.contains(element_used, el_num)==false) {
-					shuffle[el]=ar[idx];
-					element_used[idx]=el_num;
-					finished=true;
-				}
-				 
+	private void setRegion(int reg, int[] arr) {
+		
+		
+		
+		int jMax = ((reg % iSqrtSize) * iSqrtSize) + iSqrtSize;
+		int iMax = ((reg / iSqrtSize) * iSqrtSize) + iSqrtSize;
+		int iCnt = 0;
+		for (int i = (reg / iSqrtSize) * iSqrtSize; i<iMax; i++) {
+		//	System.out.println(i);
+			for (int j = (reg % iSqrtSize) * iSqrtSize; j<jMax; j++) {
+				//System.out.println(j);
+				super.getLatinSquare()[i][j] = arr[iCnt];
+				iCnt++;
 			}
 		}
-		ar=shuffle;
 	}
+	
+	private void FillDiagonalRegions() {
+		int i = 0;
+		
+		for (; i<iSize; i+=1+iSqrtSize) {
+			int[] initArray = new int[iSize];
+			for (int j = 1; j<=iSize; j++) {
+				initArray[j-1] = j;
+			}
+			int[] shuffledArray = shuffleArray(initArray);
+			setRegion(i,shuffledArray);
+		}
+	}
+	
+	public int[] shuffleArray(int[] list) {
+		int[] newList = new int[list.length];
+		for (int i = 0; i < newList.length; i++) {
+			newList[i] = 0;
+		}
+		for (int i = 0; i < list.length; i++) {
+			boolean notPlaced = true;
+			while (notPlaced) {
+				int pos = (int)(Math.random() * newList.length);
+				if (newList[pos] == 0) {
+					newList[pos] = list[i];
+					notPlaced = false;
+				} 
+			}
+		}
+		return newList;
+	}
+	
+
 }

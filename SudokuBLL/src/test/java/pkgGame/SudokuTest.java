@@ -6,6 +6,12 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import java.lang.reflect.Method; 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Constructor; 
+
+
 public class SudokuTest {
 /*
 	@Test
@@ -283,6 +289,46 @@ public class SudokuTest {
 		mySudoku.printPuzzle();
 	}
 	
+	@Test
+	public void FillDiagonalRegionsTest() throws Exception {
+		Sudoku puzzle = null;
+		
+		Class<?> cls = Class.forName("pkgGame.Sudoku");
+		Constructor cons = cls.getConstructor(new Class[] {int.class});
+		cons.setAccessible(true);
+		
+		puzzle = (Sudoku) cons.newInstance(9);
+		
+		Method methodFillDiagReg = cls.getDeclaredMethod("FillDiagonalRegions",null);
+		methodFillDiagReg.setAccessible(true);
+		methodFillDiagReg.invoke(puzzle,null);
+		int[] values = {1,2,3,4,5,6,7,8,9};
+		int[] region0 = puzzle.getRegion(0);
+		int[] region4 = puzzle.getRegion(4);
+		int[] region8 = puzzle.getRegion(8);
+		//puzzle.printPuzzle();
+		assertTrue(puzzle.hasAllValues(region0,values));
+		assertTrue(puzzle.hasAllValues(region4, values));
+		assertTrue(puzzle.hasAllValues(region8, values));
+		assertFalse(puzzle.hasAllValues(puzzle.getRegion(3), values));
+		assertFalse(puzzle.hasAllValues(puzzle.getRegion(7),values));
+
+	}
 	
+	@Test
+	public void getRegionNumberTest() throws Exception {
+		Sudoku puzzle = new Sudoku(9);
+		int regNum = puzzle.getRegionNbr(0, 0);
+		int expected = 0;
+		assertTrue(regNum == expected);
+	}
+	
+	@Test
+	public void getRegionNumberTest1() throws Exception{
+		Sudoku puzzle = new Sudoku(9);
+		int regNum = puzzle.getRegionNbr(3, 8);
+		int expected = 7;
+		assertTrue(regNum == expected);
+	}
 		
 }
