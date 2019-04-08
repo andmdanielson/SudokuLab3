@@ -343,7 +343,7 @@ public class SudokuTest {
 		
 		assertFalse(Arrays.equals(values,puzzle.getRegion(3)));
 		
- 		
+		
 
 	}
 	

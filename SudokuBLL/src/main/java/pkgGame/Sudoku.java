@@ -306,7 +306,7 @@ public class Sudoku extends LatinSquare {
 	
 	private void setRegion(int reg, int[] arr) {
 		
-		 
+		
 		
 		int jMax = ((reg % iSqrtSize) * iSqrtSize) + iSqrtSize;
 		int iMax = ((reg / iSqrtSize) * iSqrtSize) + iSqrtSize;
