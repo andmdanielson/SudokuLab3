@@ -287,7 +287,9 @@ public class SudokuTest {
 		}
 		
 		mySudoku.printPuzzle();
+		System.out.println("************************");
 	}
+	
 	
 	@Test
 	public void FillDiagonalRegionsTest() throws Exception {
@@ -312,6 +314,36 @@ public class SudokuTest {
 		assertTrue(puzzle.hasAllValues(region8, values));
 		assertFalse(puzzle.hasAllValues(puzzle.getRegion(3), values));
 		assertFalse(puzzle.hasAllValues(puzzle.getRegion(7),values));
+
+	}
+	
+	
+	@Test
+	public void shuffleRegionTest() throws Exception{
+		Sudoku puzzle = null;
+		
+		Class<?> cls = Class.forName("pkgGame.Sudoku");
+		Constructor cons = cls.getConstructor(new Class[] {int.class});
+		cons.setAccessible(true);
+		
+		puzzle = (Sudoku) cons.newInstance(9);
+		Method methodShuffleRegion = cls.getDeclaredMethod("ShuffleRegion",int.class);
+		methodShuffleRegion.setAccessible(true);
+		Method methodSetRegion = cls.getDeclaredMethod("setRegion",int.class,int[].class);
+		methodSetRegion.setAccessible(true);
+		
+		int[] values = {1,2,3,4,5,6,7,8,9};
+		methodSetRegion.invoke(puzzle, 3, values);
+		
+		puzzle.printPuzzle();
+		System.out.println("******************");
+		
+		methodShuffleRegion.invoke(puzzle, 3);
+		puzzle.printPuzzle();
+		
+		assertFalse(Arrays.equals(values,puzzle.getRegion(3)));
+		
+		
 
 	}
 	

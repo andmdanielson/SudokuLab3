@@ -352,5 +352,10 @@ public class Sudoku extends LatinSquare {
 		return newList;
 	}
 	
+	private void ShuffleRegion(int r) {
+		 
+		int[] shuffledArray = shuffleArray(getRegion(r));
+		setRegion(r, shuffledArray);		
+	}
 
 }
